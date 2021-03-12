@@ -1,0 +1,27 @@
+;START G CODE
+
+G90;use absolute coordinates
+M83;extruder relative mode
+G34;X level
+M104 S170 ; Set Extruder Min Temp
+M140 S[first_layer_bed_temperature];set bed temp
+M109 R170 ; Wait for leveling temp
+M190 S[first_layer_bed_temperature];wait for bed temp
+G28 ; home all axes
+G29 ; Bed Level
+M109 S[first_layer_temperature];set extruder temp
+G1 X0 Y0 Z0.2 F3000; go out side print erea
+G1 X10 Y10 F3000 ; Move outside the print bed
+M109 S[first_layer_temperature];Wait for extruder temp
+G92
+G1 X60 E9.0 F1000; Prime Line
+G1 X100 E12.5 F1000; Prime line
+G92 E0; reset extruder position to 0
+
+;END G CODE
+G1 Z10 ; raise z by 10mm
+M104 S0 ; turn off temperature
+M140 S0 ; turn off heatbed
+M107 ; turn off part fan
+G1 X0 Y300 F3000 ; home X axis, present print
+M84 ; disable motors
